@@ -8,6 +8,10 @@ import SignUp from '../SignUp/SignUp'
 import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
+// import Savings Component
+import Savings from '../Savings/Savings'
+import SavingsChange from '../Savings/SavingsChange'
+import SavingsCreate from '../Savings/SavingsCreate'
 
 class App extends Component {
   constructor () {
@@ -42,17 +46,26 @@ class App extends Component {
           />
         ))}
         <main className="container">
-          <Route path='/sign-up' render={() => (
+          <Route path='/sign-up/' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
-          <Route path='/sign-in' render={() => (
+          <Route path='/sign-in/' render={() => (
             <SignIn msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
-          <AuthenticatedRoute user={user} path='/sign-out' render={() => (
+          <AuthenticatedRoute user={user} path='/sign-out/' render={() => (
             <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/change-password' render={() => (
+          <AuthenticatedRoute user={user} path='/change-password/' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/savings/' render={() => (
+            <Savings user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/savings-change/' render={() => (
+            <SavingsChange user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/savings-create/' render={() => (
+            <SavingsCreate user={user} />
           )} />
         </main>
       </Fragment>
