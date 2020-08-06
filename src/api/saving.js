@@ -27,3 +27,19 @@ export const changeSavings = (user, additions) => {
     }
   })
 }
+
+export const createSavings = (user, amount) => {
+  return axios({
+    method: 'post',
+    url: apiUrl + '/savings/',
+    headers: {
+      'Authorization': `Token ${user.token}`,
+      'Content-Type': 'application/json'
+    },
+    data: {
+      saving: {
+        amount: amount
+      }
+    }
+  })
+}

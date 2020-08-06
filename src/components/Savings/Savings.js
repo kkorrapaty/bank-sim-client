@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { Redirect } from 'react-router-dom'
 
 // allow savings api call
-import { savings, changeSavings } from '../../api/saving'
+import { savings } from '../../api/saving'
 
 class Savings extends Component {
   constructor (props) {
@@ -12,11 +12,12 @@ class Savings extends Component {
     this.state = {
       // amount in bank
       amount: 0,
-      // amount to take out / put in
-      additions: '',
-      removal: '',
-      // Any issues that arise
-      display: ''
+      // button to move forward to savings withdraw/deposit site -> or create a savings account
+      moveOn: null,
+      // set a route to move to withdraw/deposit site
+      route: false,
+      // route to create a new savings account
+      createAccRoute: false
     }
   }
 
@@ -26,123 +27,69 @@ class Savings extends Component {
         // console.log(res.data)
         if (res.data.length > 0) {
           this.setState({
-            amount: res.data[0].amount
+            amount: res.data[0].amount,
+            moveOn: 'Go To Savings'
+          })
+        } else {
+          this.setState({
+            moveOn: 'Create Savings Account'
           })
         }
       })
       .catch(console.error)
   }
 
-  handleChange = event => this.setState({
-    [event.target.name]: event.target.value
-  })
-
-  onWithdraw = event => {
-    event.preventDefault()
-
-    const { amount, removal } = this.state
-    const { user } = this.props
-    // console.log(amount, parseInt(removal))
-    // console.log(user)
-    this.setState({
-      removal: parseInt(removal)
-    })
-
-    if (removal > amount) {
-      return this.setState({
-        display: 'Not Enough Funds',
-        removal: ''
-      })
-    } else if ((amount - removal) < 50) {
-      return this.setState({
-        display: 'Need at least $50 in account',
-        removal: ''
+  move () {
+    const { amount } = this.state
+    // if there is no savings account
+    if (amount === 0) {
+      this.setState({
+        createAccRoute: true
       })
     } else {
-      changeSavings(user, amount - removal)
-        .then(res => {
-          // console.log(res)
-          this.setState({
-            amount: this.state.amount - removal,
-            display: '',
-            removal: ''
-          })
-        })
-        .catch(console.error)
-    }
-  }
-
-  onDeposit = event => {
-    event.preventDefault()
-
-    const { amount, additions } = this.state
-    const { user } = this.props
-    // console.log(amount, parseInt(additions))
-    // console.log(user)
-    // set added values as an int
-    this.setState({
-      additions: parseInt(additions)
-    })
-    const total = amount + parseInt(additions)
-    // console.log(total)
-    if (total < 50) {
-      return this.setState({
-        display: 'Need at least $50 in account',
-        removal: ''
+      // If an account has been created
+      this.setState({
+        route: true
       })
-    } else {
-      changeSavings(user, total)
-        .then(res => {
-          // console.log(res)
-          this.setState({
-            amount: total,
-            display: '',
-            additions: ''
-          })
-        })
-        .catch(console.error)
     }
   }
 
   render () {
-    const { amount, additions, removal } = this.state
+    let jsx
+    // if API has not responded yet
+    const { amount, moveOn, route, createAccRoute } = this.state
+
+    if (route) {
+      return <Redirect to='/savings-change/' />
+    } else if (createAccRoute) {
+      return <Redirect to='/savings-create/' />
+    }
+
+    if (moveOn === null) {
+      jsx = <p className = "loader">Loading...</p>
+    } else if (amount === 0) {
+      jsx = (
+        <div>
+          <h3>No Savings Account</h3>
+          <Button variant="primary" onClick={() => {
+            this.move()
+          }}>{moveOn}</Button>
+        </div>
+      )
+    } else {
+      jsx = (
+        <div>
+          <h3>Amount: ${amount}</h3>
+          <Button variant="success" onClick={() => {
+            this.move()
+          }}>{moveOn}</Button>
+        </div>
+      )
+    }
     return (
       <div>
         <h1>Savings</h1>
-        <h3>Amount: ${amount}</h3>
-        <Form onSubmit={this.onDeposit}>
-          <Form.Group controlId="additions">
-            <Form.Label>Deposit</Form.Label>
-            <Form.Control
-              type="text"
-              name="additions"
-              value={additions}
-              placeholder="Enter Amount"
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-          <Button
-            variant="primary"
-            type="submit"
-          >Submit</Button>
-        </Form>
-        <Form onSubmit={this.onWithdraw}>
-          <Form.Group controlId="removal">
-            <Form.Label>Withdraw</Form.Label>
-            <Form.Control
-              type="text"
-              name="removal"
-              value={removal}
-              placeholder="Enter Amount"
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-          <Button
-            variant="primary"
-            type="submit"
-          >Submit</Button>
-        </Form>
-        <h2>{this.state.display}</h2>
+        {jsx}
       </div>
     )
   }

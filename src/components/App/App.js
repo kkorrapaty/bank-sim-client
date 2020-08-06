@@ -10,6 +10,8 @@ import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 // import Savings Component
 import Savings from '../Savings/Savings'
+import SavingsChange from '../Savings/SavingsChange'
+import SavingsCreate from '../Savings/SavingsCreate'
 
 class App extends Component {
   constructor () {
@@ -58,6 +60,12 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/savings/' render={() => (
             <Savings user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/savings-change/' render={() => (
+            <SavingsChange user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/savings-create/' render={() => (
+            <SavingsCreate user={user} />
           )} />
         </main>
       </Fragment>
