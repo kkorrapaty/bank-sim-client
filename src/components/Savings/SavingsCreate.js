@@ -24,7 +24,6 @@ class SavingsCreate extends Component {
   }
 
   componentDidMount () {
-    console.log(this.props)
     this.setState({
       display: ''
     })

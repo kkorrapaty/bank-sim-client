@@ -23,7 +23,6 @@ class SavingsChange extends Component {
   componentDidMount () {
     savings(this.props.user)
       .then(res => {
-        console.log(res.data)
         if (res.data.length > 0) {
           this.setState({
             amount: res.data[0].amount,
@@ -59,10 +58,8 @@ class SavingsChange extends Component {
           removal: ''
         })
       } else {
-        console.log(total.toFixed(2))
         changeSavings(user, total.toFixed(2))
           .then(res => {
-            console.log(res)
             this.setState({
               amount: total.toFixed(2),
               display: '',
@@ -80,7 +77,6 @@ class SavingsChange extends Component {
       const { user } = this.props
 
       const total = parseFloat(amount) + parseFloat(additions)
-      console.log(total)
 
       if (total < 50) {
         return this.setState({

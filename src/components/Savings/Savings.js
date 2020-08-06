@@ -24,7 +24,6 @@ class Savings extends Component {
   componentDidMount () {
     savings(this.props.user)
       .then(res => {
-        // console.log(res.data)
         if (res.data.length > 0) {
           this.setState({
             amount: res.data[0].amount,
