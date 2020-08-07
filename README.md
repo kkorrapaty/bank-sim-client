@@ -53,8 +53,8 @@ In the future versions of this application I would like to add the ability for u
 App Screenshot:
 
 WireFrame:
-[WireFrame](public/wireFrame.jpg)
+![](public/wireFrame.jpg)
 
 ERD:
 
-[WireFrame](https://media.git.generalassemb.ly/user/28548/files/a799e080-d834-11ea-9a0d-e8cb9431de40)
+![WireFrame](https://media.git.generalassemb.ly/user/28548/files/a799e080-d834-11ea-9a0d-e8cb9431de40)
