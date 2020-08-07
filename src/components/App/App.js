@@ -13,6 +13,9 @@ import Savings from '../Savings/Savings'
 import SavingsChange from '../Savings/SavingsChange'
 import SavingsCreate from '../Savings/SavingsCreate'
 
+// Home Page
+import Home from '../Home/Home'
+
 class App extends Component {
   constructor () {
     super()
@@ -46,6 +49,9 @@ class App extends Component {
           />
         ))}
         <main className="container">
+          <Route exact path='/' render={() => (
+            <Home user={user}/>
+          )} />
           <Route path='/sign-up/' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />

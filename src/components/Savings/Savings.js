@@ -17,17 +17,26 @@ class Savings extends Component {
       // set a route to move to withdraw/deposit site
       route: false,
       // route to create a new savings account
-      createAccRoute: false
+      createAccRoute: false,
+      // Toggle User ID
+      showID: true,
+      show: '',
+      id: 0
     }
   }
 
   componentDidMount () {
-    savings(this.props.user)
+    const { user } = this.props
+
+    savings(user)
       .then(res => {
         if (res.data.length > 0) {
           this.setState({
-            amount: res.data[0].amount,
-            moveOn: 'Go To Savings'
+            amount: parseFloat(res.data[0].amount).toLocaleString('en-US'),
+            // amount: res.data[0].amount,
+            moveOn: 'Go To Savings',
+            id: '***' + user.userid.toString().substring(11),
+            show: 'Show ID'
           })
         } else {
           this.setState({
@@ -40,6 +49,7 @@ class Savings extends Component {
 
   move () {
     const { amount } = this.state
+
     // if there is no savings account
     if (amount === 0) {
       this.setState({
@@ -53,10 +63,30 @@ class Savings extends Component {
     }
   }
 
+  // Show or Hide Account ID
+  display () {
+    const { showID } = this.state
+    const { user } = this.props
+    if (showID) {
+      this.setState({
+        show: 'Hide ID',
+        id: user.userid,
+        showID: false
+      })
+    } else {
+      this.setState({
+        show: 'Show ID',
+        id: '***' + user.userid.toString().substring(11),
+        showID: true
+      })
+    }
+  }
+
   render () {
     let jsx
     // if API has not responded yet
-    const { amount, moveOn, route, createAccRoute } = this.state
+    const { amount, moveOn, route, createAccRoute, id, show } = this.state
+    // const { user } = this.props
 
     if (route) {
       return <Redirect to='/savings-change/' />
@@ -65,7 +95,7 @@ class Savings extends Component {
     }
 
     if (moveOn === null) {
-      jsx = <p className = "loader">Loading...</p>
+      jsx = <p className = "loader"></p>
     } else if (amount === 0) {
       jsx = (
         <div>
@@ -78,7 +108,15 @@ class Savings extends Component {
     } else {
       jsx = (
         <div>
-          <h3>Amount: ${amount}</h3>
+          <h2>Savings</h2>
+          <h3 onClick={(res) => {
+            this.display()
+          }}>
+            Account ID: {id}   <Button size='sm' variant='outline-info' onClick={(res) => {
+              this.display()
+            }}>{show}</Button>
+          </h3>
+          <h4>Balance: ${amount}</h4>
           <Button variant="success" onClick={() => {
             this.move()
           }}>{moveOn}</Button>
@@ -87,8 +125,11 @@ class Savings extends Component {
     }
     return (
       <div>
-        <h1>Savings</h1>
-        {jsx}
+        <center>
+          <h1>Accounts</h1>
+          <br />
+          {jsx}
+        </center>
       </div>
     )
   }

@@ -64,7 +64,7 @@ class SavingsCreate extends Component {
     }
 
     if (display === null) {
-      jsx = <p className = "loader">Loading...</p>
+      jsx = <p className = "loader"></p>
     } else {
       jsx = (
         <div>
@@ -89,10 +89,12 @@ class SavingsCreate extends Component {
       )
     }
     return (
-      <div>
-        <h1>Hello {user.name}, Lets Create A Savings Account</h1>
-        <h4>Minimum $50 to begin with</h4>
-        {jsx}
+      <div className="row">
+        <div className="col-sm-10 col-md-8 mx-auto mt-5">
+          <h1>Hello {user.name}, Lets Create A Savings Account</h1>
+          <h4>Minimum $50 to begin with</h4>
+          {jsx}
+        </div>
       </div>
     )
   }

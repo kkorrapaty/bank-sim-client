@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
+// Redirect after delete
+import { Redirect } from 'react-router-dom'
+import Modal from 'react-bootstrap/Modal'
+
 // allow savings api call
-import { savings, changeSavings } from '../../api/saving'
+import { savings, changeSavings, deleteSavings } from '../../api/saving'
 
 class SavingsChange extends Component {
   constructor (props) {
@@ -12,21 +16,33 @@ class SavingsChange extends Component {
     this.state = {
       // amount in bank
       amount: 0,
+      commaSepAmmount: 0,
       // amount to take out / put in
       additions: '',
       removal: '',
       // Any issues that arise
-      display: null
+      display: null,
+      // Toggle User ID
+      showID: true,
+      show: '',
+      id: 0,
+      // Remove Account -- Using a modal
+      remove: false,
+      route: false
     }
   }
 
   componentDidMount () {
-    savings(this.props.user)
+    const { user } = this.props
+
+    savings(user)
       .then(res => {
         if (res.data.length > 0) {
           this.setState({
             amount: res.data[0].amount,
-            display: ''
+            display: '',
+            id: '***' + user.userid.toString().substring(11),
+            show: 'Show ID'
           })
         }
       })
@@ -96,17 +112,98 @@ class SavingsChange extends Component {
       }
     }
 
+    display () {
+      const { showID } = this.state
+      const { user } = this.props
+      if (showID) {
+        this.setState({
+          show: 'Hide ID',
+          id: user.userid,
+          showID: false
+        })
+      } else {
+        this.setState({
+          show: 'Show ID',
+          id: '***' + user.userid.toString().substring(11),
+          showID: true
+        })
+      }
+    }
+
+    // Modal is shown (DElETE was clicked)
+    handleShow = event => {
+      this.setState({
+        remove: true
+      })
+    }
+
+    // Cancel was clicked
+    handleClose = event => {
+      this.setState({
+        remove: false
+      })
+    }
+
+    // Remove was clicked
+    handleRemove = event => {
+      const { user } = this.props
+
+      deleteSavings(user)
+        .then(this.setState({
+          remove: false,
+          route: true
+        }))
+        .catch(console.error)
+    }
+
     render () {
       let jsx
+      // Include commas
+      const nf = new Intl.NumberFormat()
 
-      const { amount, additions, removal, display } = this.state
+      const { route, amount, additions, removal, display, id, show, remove } = this.state
+
+      if (route) {
+        return <Redirect to='/' />
+      }
 
       if (display === null) {
-        jsx = <p className = "loader">Loading...</p>
+        jsx = <p className = "loader"></p>
       } else {
         jsx = (
           <div>
-            <h3>Amount: ${amount}</h3>
+            <h1>
+              Savings  <Button size='sm' variant='danger' onClick={this.handleShow}>X</Button>
+            </h1>
+
+            <Modal
+              show={remove}
+              onHide={this.handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Remove Account</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>Are You Sure?</Modal.Body>
+              <Modal.Footer>
+                <Button variant="danger" onClick={this.handleRemove}>
+                  Remove
+                </Button>
+                <Button variant="primary" onClick={this.handleClose}>
+                  Cancel
+                </Button>
+              </Modal.Footer>
+            </Modal>
+
+            <h2 onClick={(res) => {
+              this.display()
+            }}>
+              Account ID: {id}   <Button size='sm' variant='outline-info' onClick={(res) => {
+                this.display()
+              }}>{show}</Button>
+            </h2>
+            <h3>Balance: ${nf.format(amount)}</h3>
             <Form onSubmit={this.onDeposit}>
               <Form.Group controlId="additions">
                 <Form.Label>Deposit</Form.Label>
@@ -146,7 +243,6 @@ class SavingsChange extends Component {
       return (
         <div className="row">
           <div className="col-sm-10 col-md-8 mx-auto mt-5">
-            <h1>Savings</h1>
             {jsx}
           </div>
         </div>

@@ -29,7 +29,7 @@ const alwaysOptions = (
 
 const Header = ({ user }) => (
   <Navbar bg="primary" variant="dark" expand="md">
-    <Navbar.Brand href="#/savings">
+    <Navbar.Brand exact='true' href="#/">
       BDR (Banking Done Right)
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />

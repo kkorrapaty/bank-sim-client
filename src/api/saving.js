@@ -43,3 +43,14 @@ export const createSavings = (user, amount) => {
     }
   })
 }
+
+export const deleteSavings = (user) => {
+  return axios({
+    method: 'delete',
+    url: apiUrl + `/savings/${user.id}`,
+    headers: {
+      'Authorization': `Token ${user.token}`,
+      'Content-Type': 'application/json'
+    }
+  })
+}
