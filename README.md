@@ -16,15 +16,15 @@ After the backend was created, I decided to use React to continue learning how t
 
 *   As an unregistered user I want to sign up/in
 *   As a registered user I want to create accounts
-  - Checking
-  - Savings
+    -   Checking
+    -   Savings
 *   As a registered user I want to
-  - Transfer between accounts
-  - Deposit/withdraw from account
-  - See how much is in account
-  - See previous transactions
-  - Input a Salary
-  - Account gets incremented automatically
+    -   Transfer between accounts
+    -   Deposit/withdraw from account
+    -   See how much is in account
+    -   See previous transactions
+    -   Input a Salary
+    -   Account gets incremented automatically
 
 #### Technologies Used
 
