@@ -1,13 +1,12 @@
 # Banking Simulation
-------
 
 This application allows the user to simulate creating a bank account. I wanted to create an application that could be used in the real world, as well as something that seems beneficial to future employers.
 
 ### Links
 
 *   [Server Side Repo](https://github.com/kkorrapaty/bank-sim-server)
-*   [Deployed Site](https://kkorrapaty.github.io/bank-sim-client/#/)
 *   [Deployed API](https://bank-sim-server.herokuapp.com)
+*   [Deployed Site](https://kkorrapaty.github.io/bank-sim-client/#/)
 
 ## Planning
 
@@ -52,9 +51,14 @@ In the future versions of this application I would like to add the ability for u
 ### Images
 App Screenshot:
 
-WireFrame:
-![](public/wireFrame.jpg)
+![](https://user-images.githubusercontent.com/45579271/89605031-93f17880-d83a-11ea-9aa6-5a1c0ce7f640.png)
 
-ERD:
+------
+WireFrame:
 
 ![WireFrame](https://media.git.generalassemb.ly/user/28548/files/a799e080-d834-11ea-9a0d-e8cb9431de40)
+
+------
+ERD:
+
+![ERD](https://media.git.generalassemb.ly/user/28548/files/ddd64380-d700-11ea-84f9-d04a79000329)
