@@ -8,6 +8,9 @@ import Modal from 'react-bootstrap/Modal'
 
 // allow savings api call
 import { savings, changeSavings, deleteSavings } from '../../api/saving'
+import { updateDepositTransaction, updateWithdrawTransaction } from '../../api/transaction'
+
+const save = require('../../save')
 
 class SavingsChange extends Component {
   constructor (props) {
@@ -74,6 +77,9 @@ class SavingsChange extends Component {
           removal: ''
         })
       } else {
+        const withdraw = save.withdraw
+        // console.log(user, deposit, withdraw)
+
         changeSavings(user, total.toFixed(2))
           .then(res => {
             this.setState({
@@ -81,6 +87,10 @@ class SavingsChange extends Component {
               display: '',
               removal: ''
             })
+          })
+          .then(() => {
+            withdraw.push(removal)
+            updateWithdrawTransaction(user, withdraw)
           })
           .catch(console.error)
       }
@@ -100,6 +110,8 @@ class SavingsChange extends Component {
           removal: ''
         })
       } else {
+        const deposit = save.deposit
+
         changeSavings(user, total.toFixed(2))
           .then(res => {
             this.setState({
@@ -107,6 +119,10 @@ class SavingsChange extends Component {
               display: '',
               additions: ''
             })
+          })
+          .then(() => {
+            deposit.push(additions)
+            updateDepositTransaction(user, deposit)
           })
           .catch(console.error)
       }
@@ -161,7 +177,7 @@ class SavingsChange extends Component {
       // Include commas
       const nf = new Intl.NumberFormat()
 
-      const { route, amount, additions, removal, display, id, show, remove } = this.state
+      const { route, amount, additions, removal, display, id, remove } = this.state
 
       if (route) {
         return <Redirect to='/' />
@@ -196,13 +212,12 @@ class SavingsChange extends Component {
               </Modal.Footer>
             </Modal>
 
-            <h2 onClick={(res) => {
+            <h4 onClick={(res) => {
               this.display()
             }}>
-              Account ID: {id}   <Button size='sm' variant='outline-info' onClick={(res) => {
-                this.display()
-              }}>{show}</Button>
-            </h2>
+              Account ID: {id}<i className="fa fa-eye"></i>
+            </h4>
+
             <h3>Balance: ${nf.format(amount)}</h3>
             <Form onSubmit={this.onDeposit}>
               <Form.Group controlId="additions">

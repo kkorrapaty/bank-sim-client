@@ -5,6 +5,9 @@ import { Redirect } from 'react-router-dom'
 
 // allow savings api call
 import { createSavings } from '../../api/saving'
+import { createTransaction } from '../../api/transaction'
+
+const save = require('../../save')
 
 class SavingsCreate extends Component {
   constructor (props) {
@@ -49,6 +52,13 @@ class SavingsCreate extends Component {
             route: true
           })
         })
+        .then(() => {
+          createTransaction(user, amount)
+            .then(res => {
+              save.deposit = res.data.deposit
+              save.withdraw = res.data.withdraw
+            })
+        })
         .catch(console.error)
     }
   }
@@ -60,7 +70,8 @@ class SavingsCreate extends Component {
     const { user } = this.props
     // check if account was successfully created
     if (route) {
-      return <Redirect to='/savings/' />
+      save.amount = amount
+      return <Redirect to='/savings/transactions' />
     }
 
     if (display === null) {

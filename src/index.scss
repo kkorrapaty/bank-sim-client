@@ -53,12 +53,20 @@ body {
   border: 5px solid gray;
   font-weight: bolder;
   padding: 10px;
-  text-decoration: underline;
+  text-align: center;
+
+  h2 {
+    color: darkblue;
+  }
 }
 
 .home-page-buttons {
   display: flex;
   margin: 10px;
+}
+
+h1 {
+  text-align: center;
 }
 
 h5 {

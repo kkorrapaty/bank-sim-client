@@ -7,7 +7,7 @@ const authenticatedOptions = (
   <Fragment>
     <NavDropdown title="Account" id="basic-nav-dropdown">
       <NavDropdown.Item href="#change-password">Change Password</NavDropdown.Item>
-      <NavDropdown.Item href="#savings">Savings</NavDropdown.Item>
+      <NavDropdown.Item href="#savings/transactions">Savings</NavDropdown.Item>
       <NavDropdown.Item href="#savings-change">Savings Account</NavDropdown.Item>
     </NavDropdown>
     <Nav.Link href="#sign-out">Sign Out</Nav.Link>
@@ -23,12 +23,12 @@ const unauthenticatedOptions = (
 
 const alwaysOptions = (
   <Fragment>
-    <Nav.Link href="#/savings">Home</Nav.Link>
+    <Nav.Link href="#/savings/transactions">Home</Nav.Link>
   </Fragment>
 )
 
 const Header = ({ user }) => (
-  <Navbar bg="primary" variant="dark" expand="md">
+  <Navbar bg="dark" variant="dark" expand="md">
     <Navbar.Brand exact='true' href="#/">
       BDR (Banking Done Right)
     </Navbar.Brand>

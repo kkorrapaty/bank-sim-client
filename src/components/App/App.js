@@ -13,6 +13,9 @@ import Savings from '../Savings/Savings'
 import SavingsChange from '../Savings/SavingsChange'
 import SavingsCreate from '../Savings/SavingsCreate'
 
+// import Transactions Component
+import Transactions from '../Transactions/Transactions'
+
 // Home Page
 import Home from '../Home/Home'
 
@@ -72,6 +75,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/savings-create/' render={() => (
             <SavingsCreate user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/savings/transactions/' render={() => (
+            <Transactions user={user} />
           )} />
         </main>
       </Fragment>

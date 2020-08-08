@@ -1,10 +1,10 @@
 import apiUrl from '../apiConfig'
 import axios from 'axios'
 
-export const savings = user => {
+export const transactions = user => {
   return axios({
     method: 'get',
-    url: apiUrl + '/savings/',
+    url: apiUrl + '/transactions/',
     headers: {
       'Authorization': `Token ${user.token}`,
       'Content-Type': 'application/json'
@@ -12,45 +12,51 @@ export const savings = user => {
   })
 }
 
-export const changeSavings = (user, total) => {
-  return axios({
-    method: 'patch',
-    url: apiUrl + `/savings/${user.id}`,
-    headers: {
-      'Authorization': `Token ${user.token}`,
-      'Content-Type': 'application/json'
-    },
-    data: {
-      saving: {
-        amount: total
-      }
-    }
-  })
-}
-
-export const createSavings = (user, amount) => {
+export const createTransaction = (user, amount) => {
   return axios({
     method: 'post',
-    url: apiUrl + '/savings/',
+    url: apiUrl + '/transactions/',
     headers: {
       'Authorization': `Token ${user.token}`,
       'Content-Type': 'application/json'
     },
     data: {
-      saving: {
-        amount: amount
+      transaction: {
+        deposit: [amount],
+        withdraw: []
       }
     }
   })
 }
 
-export const deleteSavings = (user) => {
+export const updateDepositTransaction = (user, input) => {
   return axios({
-    method: 'delete',
-    url: apiUrl + `/savings/${user.id}`,
+    method: 'patch',
+    url: apiUrl + `/transactions/${user.id}`,
     headers: {
       'Authorization': `Token ${user.token}`,
       'Content-Type': 'application/json'
+    },
+    data: {
+      transaction: {
+        deposit: input
+      }
+    }
+  })
+}
+
+export const updateWithdrawTransaction = (user, output) => {
+  return axios({
+    method: 'patch',
+    url: apiUrl + `/transactions/${user.id}`,
+    headers: {
+      'Authorization': `Token ${user.token}`,
+      'Content-Type': 'application/json'
+    },
+    data: {
+      transaction: {
+        withdraw: output
+      }
     }
   })
 }

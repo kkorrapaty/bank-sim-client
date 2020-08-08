@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom'
 // allow savings api call
 import { savings } from '../../api/saving'
 
+const save = require('../../save')
+
 class Savings extends Component {
   constructor (props) {
     super(props)
@@ -21,7 +23,9 @@ class Savings extends Component {
       // Toggle User ID
       showID: true,
       show: '',
-      id: 0
+      id: 0,
+      // Trans Route
+      routeToTrans: false
     }
   }
 
@@ -36,8 +40,10 @@ class Savings extends Component {
             // amount: res.data[0].amount,
             moveOn: 'Go To Savings',
             id: '***' + user.userid.toString().substring(11),
-            show: 'Show ID'
+            show: 'Show ID',
+            routeToTrans: true
           })
+          save.amount = this.state.amount
         } else {
           this.setState({
             moveOn: 'Create Savings Account'
@@ -85,7 +91,7 @@ class Savings extends Component {
   render () {
     let jsx
     // if API has not responded yet
-    const { amount, moveOn, route, createAccRoute, id, show } = this.state
+    const { amount, moveOn, route, createAccRoute, id } = this.state
     // const { user } = this.props
 
     if (route) {
@@ -109,13 +115,11 @@ class Savings extends Component {
       jsx = (
         <div>
           <h2>Savings</h2>
-          <h3 onClick={(res) => {
+          <h4 onClick={(res) => {
             this.display()
           }}>
-            Account ID: {id}   <Button size='sm' variant='outline-info' onClick={(res) => {
-              this.display()
-            }}>{show}</Button>
-          </h3>
+            Account ID: {id}<i className="fa fa-eye"></i>
+          </h4>
           <h4>Balance: ${amount}</h4>
           <Button variant="success" onClick={() => {
             this.move()
