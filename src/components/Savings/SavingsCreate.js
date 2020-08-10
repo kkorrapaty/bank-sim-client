@@ -5,6 +5,9 @@ import { Redirect } from 'react-router-dom'
 
 // allow savings api call
 import { createSavings } from '../../api/saving'
+import { createTransaction } from '../../api/transaction'
+
+const save = require('../../save')
 
 class SavingsCreate extends Component {
   constructor (props) {
@@ -13,7 +16,8 @@ class SavingsCreate extends Component {
     this.state = {
       amount: '',
       route: false,
-      display: null
+      display: null,
+      savingId: 0
     }
   }
 
@@ -44,10 +48,25 @@ class SavingsCreate extends Component {
       // create savings account
       createSavings(user, parseFloat(amount))
         .then(res => {
+          console.log(res)
           this.setState({
             amount: amount,
-            route: true
+            savingId: res.data.id
           })
+          save.amount = res.data.amount
+        })
+        .then(() => {
+          createTransaction(user, parseFloat(amount), parseFloat(amount), this.state.savingId)
+            .then(res => {
+              console.log(res)
+              save.depWith = res.data
+            })
+            .then(() => {
+              this.setState({
+                route: true
+              })
+            })
+            .catch(console.error)
         })
         .catch(console.error)
     }
@@ -60,11 +79,12 @@ class SavingsCreate extends Component {
     const { user } = this.props
     // check if account was successfully created
     if (route) {
-      return <Redirect to='/savings/' />
+      save.amount = amount
+      return <Redirect to='/savings/transactions' />
     }
 
     if (display === null) {
-      jsx = <p className = "loader">Loading...</p>
+      jsx = <p className = "loader"></p>
     } else {
       jsx = (
         <div>
@@ -89,10 +109,12 @@ class SavingsCreate extends Component {
       )
     }
     return (
-      <div>
-        <h1>Hello {user.name}, Lets Create A Savings Account</h1>
-        <h4>Minimum $50 to begin with</h4>
-        {jsx}
+      <div className="row">
+        <div className="col-sm-10 col-md-8 mx-auto mt-5">
+          <h1>Hello {user.name}, Lets Create A Savings Account</h1>
+          <h4>Minimum $50 to begin with</h4>
+          {jsx}
+        </div>
       </div>
     )
   }

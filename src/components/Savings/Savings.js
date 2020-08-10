@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom'
 // allow savings api call
 import { savings } from '../../api/saving'
 
+const save = require('../../save')
+
 class Savings extends Component {
   constructor (props) {
     super(props)
@@ -17,18 +19,31 @@ class Savings extends Component {
       // set a route to move to withdraw/deposit site
       route: false,
       // route to create a new savings account
-      createAccRoute: false
+      createAccRoute: false,
+      // Toggle User ID
+      showID: true,
+      show: '',
+      id: 0,
+      // Trans Route
+      routeToTrans: false
     }
   }
 
   componentDidMount () {
-    savings(this.props.user)
+    const { user } = this.props
+
+    savings(user)
       .then(res => {
         if (res.data.length > 0) {
           this.setState({
-            amount: res.data[0].amount,
-            moveOn: 'Go To Savings'
+            amount: parseFloat(res.data[0].amount).toLocaleString('en-US'),
+            // amount: res.data[0].amount,
+            moveOn: 'Savings',
+            id: '***' + user.userid.toString().substring(11),
+            show: 'Show ID',
+            routeToTrans: true
           })
+          save.amount = this.state.amount
         } else {
           this.setState({
             moveOn: 'Create Savings Account'
@@ -40,6 +55,7 @@ class Savings extends Component {
 
   move () {
     const { amount } = this.state
+
     // if there is no savings account
     if (amount === 0) {
       this.setState({
@@ -53,10 +69,30 @@ class Savings extends Component {
     }
   }
 
+  // Show or Hide Account ID
+  display () {
+    const { showID } = this.state
+    const { user } = this.props
+    if (showID) {
+      this.setState({
+        show: 'Hide ID',
+        id: user.userid,
+        showID: false
+      })
+    } else {
+      this.setState({
+        show: 'Show ID',
+        id: '***' + user.userid.toString().substring(11),
+        showID: true
+      })
+    }
+  }
+
   render () {
     let jsx
     // if API has not responded yet
-    const { amount, moveOn, route, createAccRoute } = this.state
+    const { amount, moveOn, route, createAccRoute, id } = this.state
+    // const { user } = this.props
 
     if (route) {
       return <Redirect to='/savings-change/' />
@@ -65,29 +101,38 @@ class Savings extends Component {
     }
 
     if (moveOn === null) {
-      jsx = <p className = "loader">Loading...</p>
+      jsx = <p className = "loader"></p>
     } else if (amount === 0) {
       jsx = (
         <div>
-          <h3>No Savings Account</h3>
-          <Button variant="primary" onClick={() => {
-            this.move()
-          }}>{moveOn}</Button>
+          <center>
+            <h3>No Savings Account</h3>
+            <Button variant="primary" onClick={() => {
+              this.move()
+            }}>{moveOn}</Button>
+          </center>
         </div>
       )
     } else {
       jsx = (
-        <div>
-          <h3>Amount: ${amount}</h3>
-          <Button variant="success" onClick={() => {
+        <div className='saving-transaction'>
+          <Button variant="link" size='lg' onClick={() => {
             this.move()
           }}>{moveOn}</Button>
+          <h4 onClick={(res) => {
+            this.display()
+          }}>
+            Account ID: {id}<i className="fa fa-eye"></i>
+          </h4> <br />                 <h4>Balance: ${amount}</h4>
         </div>
       )
     }
     return (
       <div>
-        <h1>Savings</h1>
+        <center>
+          <h1>Accounts</h1>
+          <br />
+        </center>
         {jsx}
       </div>
     )

@@ -48,3 +48,40 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.home-page {
+  border: 5px solid gray;
+  font-weight: bolder;
+  padding: 10px;
+  text-align: center;
+
+  h2 {
+    color: darkblue;
+  }
+}
+
+.home-page-buttons {
+  display: flex;
+  margin: 10px;
+}
+
+.hom-page-h1 {
+  text-shadow: 0 3px 0 #b2a98f, 0 10px 10px rgba(0,0,0,0.15), 0 10px 2px rgba(0,0,0,0.1), 0 30px 30px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+h5 {
+  text-align: center;
+  color: green;
+}
+
+.saving-transaction {
+  display: inline-block;
+}
+
+.saving-trans-hist {
+  display: flex;
+}
