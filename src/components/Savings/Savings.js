@@ -38,7 +38,7 @@ class Savings extends Component {
           this.setState({
             amount: parseFloat(res.data[0].amount).toLocaleString('en-US'),
             // amount: res.data[0].amount,
-            moveOn: 'Go To Savings',
+            moveOn: 'Savings',
             id: '***' + user.userid.toString().substring(11),
             show: 'Show ID',
             routeToTrans: true
@@ -105,25 +105,25 @@ class Savings extends Component {
     } else if (amount === 0) {
       jsx = (
         <div>
-          <h3>No Savings Account</h3>
-          <Button variant="primary" onClick={() => {
-            this.move()
-          }}>{moveOn}</Button>
+          <center>
+            <h3>No Savings Account</h3>
+            <Button variant="primary" onClick={() => {
+              this.move()
+            }}>{moveOn}</Button>
+          </center>
         </div>
       )
     } else {
       jsx = (
-        <div>
-          <h2>Savings</h2>
+        <div className='saving-transaction'>
+          <Button variant="link" size='lg' onClick={() => {
+            this.move()
+          }}>{moveOn}</Button>
           <h4 onClick={(res) => {
             this.display()
           }}>
             Account ID: {id}<i className="fa fa-eye"></i>
-          </h4>
-          <h4>Balance: ${amount}</h4>
-          <Button variant="success" onClick={() => {
-            this.move()
-          }}>{moveOn}</Button>
+          </h4> <br />                 <h4>Balance: ${amount}</h4>
         </div>
       )
     }
@@ -132,8 +132,8 @@ class Savings extends Component {
         <center>
           <h1>Accounts</h1>
           <br />
-          {jsx}
         </center>
+        {jsx}
       </div>
     )
   }

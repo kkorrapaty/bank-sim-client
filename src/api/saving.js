@@ -12,10 +12,10 @@ export const savings = user => {
   })
 }
 
-export const changeSavings = (user, total) => {
+export const changeSavings = (user, total, id) => {
   return axios({
     method: 'patch',
-    url: apiUrl + `/savings/${user.id}`,
+    url: apiUrl + `/savings/${id}`,
     headers: {
       'Authorization': `Token ${user.token}`,
       'Content-Type': 'application/json'
@@ -44,10 +44,10 @@ export const createSavings = (user, amount) => {
   })
 }
 
-export const deleteSavings = (user) => {
+export const deleteSavings = (user, id) => {
   return axios({
     method: 'delete',
-    url: apiUrl + `/savings/${user.id}`,
+    url: apiUrl + `/savings/${id}`,
     headers: {
       'Authorization': `Token ${user.token}`,
       'Content-Type': 'application/json'

@@ -12,7 +12,8 @@ export const transactions = user => {
   })
 }
 
-export const createTransaction = (user, amount) => {
+export const createTransaction = (user, amount, total, id) => {
+  // console.log('IN Axios', user, amount)
   return axios({
     method: 'post',
     url: apiUrl + '/transactions/',
@@ -22,41 +23,56 @@ export const createTransaction = (user, amount) => {
     },
     data: {
       transaction: {
-        deposit: [amount],
-        withdraw: []
+        account: id,
+        change_in_amount: amount,
+        curr_total: total
       }
     }
   })
 }
 
-export const updateDepositTransaction = (user, input) => {
+export const deleteTransactions = (user, id) => {
   return axios({
-    method: 'patch',
-    url: apiUrl + `/transactions/${user.id}`,
+    method: 'delete',
+    url: apiUrl + `/transactions/${id}`,
     headers: {
       'Authorization': `Token ${user.token}`,
       'Content-Type': 'application/json'
-    },
-    data: {
-      transaction: {
-        deposit: input
-      }
     }
   })
 }
 
-export const updateWithdrawTransaction = (user, output) => {
-  return axios({
-    method: 'patch',
-    url: apiUrl + `/transactions/${user.id}`,
-    headers: {
-      'Authorization': `Token ${user.token}`,
-      'Content-Type': 'application/json'
-    },
-    data: {
-      transaction: {
-        withdraw: output
-      }
-    }
-  })
-}
+// export const updateTransaction = (user, change, total) => {
+//   console.log(user)
+//   return axios({
+//     method: 'patch',
+//     url: apiUrl + `/transactions/${user.id}`,
+//     headers: {
+//       'Authorization': `Token ${user.token}`,
+//       'Content-Type': 'application/json'
+//     },
+//     data: {
+//       transaction: {
+//         account: user.id,
+//         change_in_amount: change,
+//         curr_total: total
+//       }
+//     }
+//   })
+// }
+//
+// export const updateWithdrawTransaction = (user, output) => {
+//   return axios({
+//     method: 'patch',
+//     url: apiUrl + `/transactions/${user.id}`,
+//     headers: {
+//       'Authorization': `Token ${user.token}`,
+//       'Content-Type': 'application/json'
+//     },
+//     data: {
+//       transaction: {
+//         withdraw: output
+//       }
+//     }
+//   })
+// }

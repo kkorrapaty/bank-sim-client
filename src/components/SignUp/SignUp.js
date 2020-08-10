@@ -99,6 +99,7 @@ class SignUp extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
+            <h6>5 Characters Minimum</h6>
             <Button
               variant="primary"
               type="submit"

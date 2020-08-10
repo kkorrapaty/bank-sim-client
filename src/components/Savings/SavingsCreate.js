@@ -16,7 +16,8 @@ class SavingsCreate extends Component {
     this.state = {
       amount: '',
       route: false,
-      display: null
+      display: null,
+      savingId: 0
     }
   }
 
@@ -47,17 +48,25 @@ class SavingsCreate extends Component {
       // create savings account
       createSavings(user, parseFloat(amount))
         .then(res => {
+          console.log(res)
           this.setState({
             amount: amount,
-            route: true
+            savingId: res.data.id
           })
+          save.amount = res.data.amount
         })
         .then(() => {
-          createTransaction(user, amount)
+          createTransaction(user, parseFloat(amount), parseFloat(amount), this.state.savingId)
             .then(res => {
-              save.deposit = res.data.deposit
-              save.withdraw = res.data.withdraw
+              console.log(res)
+              save.depWith = res.data
             })
+            .then(() => {
+              this.setState({
+                route: true
+              })
+            })
+            .catch(console.error)
         })
         .catch(console.error)
     }

@@ -8,7 +8,7 @@ import Modal from 'react-bootstrap/Modal'
 
 // allow savings api call
 import { savings, changeSavings, deleteSavings } from '../../api/saving'
-import { updateDepositTransaction, updateWithdrawTransaction } from '../../api/transaction'
+import { createTransaction } from '../../api/transaction'
 
 const save = require('../../save')
 
@@ -17,6 +17,8 @@ class SavingsChange extends Component {
     super(props)
     // set amount in account to 0
     this.state = {
+      // savings id
+      savingId: 0,
       // amount in bank
       amount: 0,
       commaSepAmmount: 0,
@@ -42,6 +44,7 @@ class SavingsChange extends Component {
       .then(res => {
         if (res.data.length > 0) {
           this.setState({
+            savingId: res.data[0].id,
             amount: res.data[0].amount,
             display: '',
             id: '***' + user.userid.toString().substring(11),
@@ -77,20 +80,28 @@ class SavingsChange extends Component {
           removal: ''
         })
       } else {
-        const withdraw = save.withdraw
+        // const depWith = save.depWith
         // console.log(user, deposit, withdraw)
 
-        changeSavings(user, total.toFixed(2))
+        changeSavings(user, total.toFixed(2), this.state.savingId)
           .then(res => {
             this.setState({
-              amount: total.toFixed(2),
-              display: '',
-              removal: ''
+              amount: total.toFixed(2)
             })
           })
           .then(() => {
-            withdraw.push(removal)
-            updateWithdrawTransaction(user, withdraw)
+            const change = '-' + removal
+            const currTotal = this.state.amount
+
+            createTransaction(user, (parseFloat(change)).toFixed(2), parseFloat(currTotal), this.state.savingId)
+              .then((res) => {
+                console.log(res)
+                save.depWith = res.data
+                this.setState({
+                  display: '',
+                  removal: ''
+                })
+              })
           })
           .catch(console.error)
       }
@@ -110,9 +121,9 @@ class SavingsChange extends Component {
           removal: ''
         })
       } else {
-        const deposit = save.deposit
+        // const depWith = save.depWith
 
-        changeSavings(user, total.toFixed(2))
+        changeSavings(user, total.toFixed(2), this.state.savingId)
           .then(res => {
             this.setState({
               amount: total.toFixed(2),
@@ -121,8 +132,18 @@ class SavingsChange extends Component {
             })
           })
           .then(() => {
-            deposit.push(additions)
-            updateDepositTransaction(user, deposit)
+            const change = '+' + additions
+            const currTotal = this.state.amount
+
+            createTransaction(user, (parseFloat(change)).toFixed(2), parseFloat(currTotal), this.state.savingId)
+              .then((res) => {
+                console.log(res)
+                save.depWith = res.data.dep_with
+                this.setState({
+                  display: '',
+                  removal: ''
+                })
+              })
           })
           .catch(console.error)
       }
@@ -164,7 +185,12 @@ class SavingsChange extends Component {
     handleRemove = event => {
       const { user } = this.props
 
-      deleteSavings(user)
+      deleteSavings(user, this.state.savingId)
+        .then((res) => {
+          console.log(res)
+          // (user, this.state.savingId)
+          //   .catch(console.error)
+        })
         .then(this.setState({
           remove: false,
           route: true
