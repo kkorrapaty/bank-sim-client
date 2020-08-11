@@ -4,9 +4,9 @@ This application allows the user to simulate creating a bank account. I wanted t
 
 ### Links
 
-*   [Server Side Repo](https://github.com/kkorrapaty/bank-sim-server)
-*   [Deployed API](https://bank-sim-server.herokuapp.com)
-*   [Deployed Site](https://kkorrapaty.github.io/bank-sim-client/#/)
+-   [Server Side Repo](https://github.com/kkorrapaty/bank-sim-server)
+-   [Deployed API](https://bank-sim-server.herokuapp.com)
+-   [Deployed Site](https://kkorrapaty.github.io/bank-sim-client/#/)
 
 ## Planning
 
@@ -14,11 +14,11 @@ After the backend was created, I decided to use React to continue learning how t
 
 #### User Stories
 
-*   As an unregistered user I want to sign up/in
-*   As a registered user I want to create accounts
+-   As an unregistered user I want to sign up/in
+-   As a registered user I want to create accounts
     -   Checking
     -   Savings
-*   As a registered user I want to
+-   As a registered user I want to
     -   Transfer between accounts
     -   Deposit/withdraw from account
     -   See how much is in account
@@ -28,37 +28,37 @@ After the backend was created, I decided to use React to continue learning how t
 
 #### Technologies Used
 
-*   Javascript
-*   React
-*   HTML/CSS
-*   Bootsrap
+-   Javascript
+-   React
+-   HTML/CSS
+-   Bootsrap
 
 #### Catalog of Routes
 
-| Verb | URI Pattern |
-|---------|--------|
-| GET | /savings |
-| GET   | /savings/:id  |
-| POST   | /savings |
-| PATCH   | /savings/:id  |
-| DELETE   | /savings/:id  |
-
+| Verb   | URI Pattern  |
+| ------ | ------------ |
+| GET    | /savings     |
+| GET    | /savings/:id |
+| POST   | /savings     |
+| PATCH  | /savings/:id |
+| DELETE | /savings/:id |
 
 #### Future Additions
 
 In the future versions of this application I would like to add the ability for users to create multiple checkout accounts. As well as that, I want to invoke a functionality that allows those various accounts to transfer funds between each other
 
 ### Images
+
 App Screenshot:
 
-![](https://user-images.githubusercontent.com/45579271/89605031-93f17880-d83a-11ea-9aa6-5a1c0ce7f640.png)
+![](https://user-images.githubusercontent.com/45579271/89907356-921d1180-dbba-11ea-8e9e-c46ff43f3919.png)
 
-------
 WireFrame:
 
 ![WireFrame](https://media.git.generalassemb.ly/user/28548/files/a799e080-d834-11ea-9a0d-e8cb9431de40)
 
-------
+* * *
+
 ERD:
 
 ![ERD](https://media.git.generalassemb.ly/user/28548/files/ddd64380-d700-11ea-84f9-d04a79000329)
