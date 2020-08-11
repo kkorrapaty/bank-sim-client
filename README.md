@@ -53,12 +53,8 @@ App Screenshot:
 
 ![](https://user-images.githubusercontent.com/45579271/89907356-921d1180-dbba-11ea-8e9e-c46ff43f3919.png)
 
+****
+
 WireFrame:
 
 ![WireFrame](https://media.git.generalassemb.ly/user/28548/files/a799e080-d834-11ea-9a0d-e8cb9431de40)
-
-* * *
-
-ERD:
-
-![ERD](https://media.git.generalassemb.ly/user/28548/files/ddd64380-d700-11ea-84f9-d04a79000329)
