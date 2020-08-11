@@ -26,27 +26,6 @@ After the backend was created, I decided to use React to continue learning how t
     -   Input a Salary
     -   Account gets incremented automatically
 
-#### Technologies Used
-
--   Javascript
--   React
--   HTML/CSS
--   Bootsrap
-
-#### Catalog of Routes
-
-| Verb   | URI Pattern  |
-| ------ | ------------ |
-| GET    | /savings     |
-| GET    | /savings/:id |
-| POST   | /savings     |
-| PATCH  | /savings/:id |
-| DELETE | /savings/:id |
-
-#### Future Additions
-
-In the future versions of this application I would like to add the ability for users to create multiple checkout accounts. As well as that, I want to invoke a functionality that allows those various accounts to transfer funds between each other
-
 ### Images
 
 App Screenshot:
