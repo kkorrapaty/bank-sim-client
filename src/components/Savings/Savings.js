@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import { Redirect } from 'react-router-dom'
+import { Row, Col } from 'react-bootstrap'
 
 // allow savings api call
 import { savings } from '../../api/saving'
+// allow checkings api call
+import { checkings } from '../../api/checking'
 
 const save = require('../../save')
 
@@ -14,6 +17,8 @@ class Savings extends Component {
     this.state = {
       // amount in bank
       amount: 0,
+      // amount in checking account
+      checkAmountList: [],
       // button to move forward to savings withdraw/deposit site -> or create a savings account
       moveOn: null,
       // set a route to move to withdraw/deposit site
@@ -51,6 +56,16 @@ class Savings extends Component {
         }
       })
       .catch(console.error)
+
+    checkings(user)
+      .then(res => {
+        console.log(res)
+        if (res.data.length > 0) {
+          this.setState({
+            checkAmountList: res.data
+          })
+        }
+      })
   }
 
   move () {
@@ -91,7 +106,7 @@ class Savings extends Component {
   render () {
     let jsx
     // if API has not responded yet
-    const { amount, moveOn, route, createAccRoute, id } = this.state
+    const { amount, moveOn, route, createAccRoute, id, checkAmountList } = this.state
     // const { user } = this.props
 
     if (route) {
@@ -115,15 +130,33 @@ class Savings extends Component {
       )
     } else {
       jsx = (
-        <div className='saving-transaction'>
-          <Button variant="link" size='lg' onClick={() => {
-            this.move()
-          }}>{moveOn}</Button>
-          <h4 onClick={(res) => {
-            this.display()
-          }}>
-            Account ID: {id}<i className="fa fa-eye"></i>
-          </h4> <br />                 <h4>Balance: ${amount}</h4>
+        <div>
+          <Row sm={6}>
+            <div className='saving-transaction'>
+              <Button variant="link" size='lg' onClick={() => {
+                this.move()
+              }}>{moveOn}</Button>
+              <h4 onClick={(res) => {
+                this.display()
+              }}>
+                Account ID: {id}<i className="fa fa-eye"></i>
+              </h4> <br />                 <h4>Balance: ${amount}</h4>
+            </div>
+            <div>
+              {checkAmountList.map((item, index) => {
+                return (
+                  <Col sm={6} key={index}>
+                    <h3>
+                      Checkings: {index}
+                    </h3>
+                    <Button variant="link">
+                      {item.amount}
+                    </Button>
+                  </Col>
+                )
+              })}
+            </div>
+          </Row>
         </div>
       )
     }
