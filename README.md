@@ -33,16 +33,6 @@ After the backend was created, I decided to use React to continue learning how t
 -   HTML/CSS
 -   Bootsrap
 
-#### Catalog of Routes
-
-| Verb   | URI Pattern  |
-| ------ | ------------ |
-| GET    | /savings     |
-| GET    | /savings/:id |
-| POST   | /savings     |
-| PATCH  | /savings/:id |
-| DELETE | /savings/:id |
-
 #### Future Additions
 
 In the future versions of this application I would like to add the ability for users to create multiple checkout accounts. As well as that, I want to invoke a functionality that allows those various accounts to transfer funds between each other
@@ -56,9 +46,3 @@ App Screenshot:
 WireFrame:
 
 ![WireFrame](https://media.git.generalassemb.ly/user/28548/files/a799e080-d834-11ea-9a0d-e8cb9431de40)
-
-* * *
-
-ERD:
-
-![ERD](https://media.git.generalassemb.ly/user/28548/files/ddd64380-d700-11ea-84f9-d04a79000329)
