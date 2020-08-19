@@ -7,7 +7,11 @@ const amount = 0
 // empty object
 const depWith = {}
 
+// index for checking Account
+const checkingsId = 0
+
 module.export = {
   amount,
-  depWith
+  depWith,
+  checkingsId
 }

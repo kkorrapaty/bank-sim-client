@@ -186,11 +186,6 @@ class SavingsChange extends Component {
       const { user } = this.props
 
       deleteSavings(user, this.state.savingId)
-        .then((res) => {
-          console.log(res)
-          // (user, this.state.savingId)
-          //   .catch(console.error)
-        })
         .then(this.setState({
           remove: false,
           route: true

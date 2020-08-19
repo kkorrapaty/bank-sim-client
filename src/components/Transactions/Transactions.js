@@ -8,7 +8,7 @@ import { Row, Col } from 'react-bootstrap'
 const save = require('../../save')
 
 const Transactions = props => {
-  const [amount, setAmount] = useState(0)
+  // const [amount, setAmount] = useState(0)
   const [trans, setTrans] = useState(null)
   // const [hasSavings, setHasSavings] = useState(false)
   // const [deposit, setDeposit] = useState([])
@@ -22,12 +22,12 @@ const Transactions = props => {
     savings(props.user)
       .then(res => {
         if (res.data.length > 0) {
-          console.log(res.data[0].amount)
-          setAmount(parseFloat(res.data[0].amount))
+          // console.log(res.data[0].amount)
+          // setAmount(parseFloat(res.data[0].amount))
           // Get transactions
           transactions(props.user)
             .then(res => {
-              console.log(res)
+              // console.log(res)
               if (res.data.length > 0) {
                 // console.log(res.data.amount)
                 // setAmount(res.data.amount)
@@ -47,10 +47,10 @@ const Transactions = props => {
         }
       })
       .catch(console.error)
-  }, [])
+  })
 
   const handleShow = () => {
-    console.log(amount)
+    // console.log(amount)
     if (showHistory === 'd-none') {
       setShow('')
       setTrans('Hide Transaction History')
@@ -78,6 +78,11 @@ const Transactions = props => {
         <Button onClick={handleShow}>{trans}</Button>
         <Container className={showHistory}>
           <Row sm={12}>
+            <Col sm={4}>
+              <h3>
+                Type |  Total
+              </h3>
+            </Col>
             {depositWithdraw.map((item, index) => {
               if (parseFloat(item.change_in_amount) > 0) {
                 type = 'Deposit'
@@ -86,9 +91,9 @@ const Transactions = props => {
               }
               return (
                 <Col sm={12} key={index}>
-                  <h3>
-                    {type}: ${nf.format(item.change_in_amount)} -- Total: ${nf.format(item.curr_total)}
-                  </h3>
+                  <h4>
+                    {type}: ${nf.format(item.change_in_amount)} | ${nf.format(item.curr_total)}
+                  </h4>
                   <br />
                 </Col>
               )

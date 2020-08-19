@@ -25,12 +25,24 @@ class Savings extends Component {
       route: false,
       // route to create a new savings account
       createAccRoute: false,
-      // Toggle User ID
+      // Toggle User ID for Savings
       showID: true,
       show: '',
       id: 0,
+      // Toggle User ID for Checkings
+      checkingshowID: true,
+      checkingshow: '',
+      checkingId: [],
+      // No checkings account but there is a savings account
+      checkingStatus: false,
       // Trans Route
-      routeToTrans: false
+      routeToTrans: false,
+      // Route to create Checkings account
+      createCheckAccRoute: false,
+      // Route to change Checkings account
+      changeCheckRoute: false,
+      // checking account index
+      checkingAccountIndex: 0
     }
   }
 
@@ -59,15 +71,27 @@ class Savings extends Component {
 
     checkings(user)
       .then(res => {
-        console.log(res)
+        // console.log(res)
         if (res.data.length > 0) {
+          const shallowCopy = [...res.data]
+          shallowCopy.map(val => {
+            val.index = '***'
+          })
+          // console.log(shallowCopy)
+
           this.setState({
-            checkAmountList: res.data
+            checkAmountList: res.data,
+            checkingId: shallowCopy
+          })
+        } else {
+          this.setState({
+            checkingStatus: true
           })
         }
       })
   }
 
+  // Savings Account
   move () {
     const { amount } = this.state
 
@@ -84,7 +108,26 @@ class Savings extends Component {
     }
   }
 
-  // Show or Hide Account ID
+  // Checkings Account
+  moveCheck (bool, index) {
+    // const { checkingStatus } = this.state
+
+    // if there is no Checkings account)
+    if (bool) {
+      this.setState({
+        createCheckAccRoute: true,
+        checkingAccountIndex: index
+      })
+      save.checkingsId = index
+    } else {
+      // If account was created
+      this.setState({
+        changeCheckRoute: true
+      })
+    }
+  }
+
+  // Show or Hide Account ID - Savings
   display () {
     const { showID } = this.state
     const { user } = this.props
@@ -103,16 +146,52 @@ class Savings extends Component {
     }
   }
 
+  // Show or Hide Account ID - Checkings
+  displayCheckings (index) {
+    const shallowCopy = this.state.checkingId
+
+    // const { checkingshowID } = this.state
+    const { user } = this.props
+
+    if (shallowCopy[index].index === '***') {
+      shallowCopy[index].index = user.userid + index + 1
+
+      this.setState({
+        checkingshow: 'Hide ID',
+        checkingId: shallowCopy,
+        checkingshowID: false
+      })
+    } else {
+      shallowCopy[index].index = '***'
+
+      this.setState({
+        checkingshow: 'Show ID',
+        checkingId: shallowCopy,
+        checkingshowID: true
+      })
+    }
+  }
+
   render () {
+    const nf = new Intl.NumberFormat()
+
     let jsx
     // if API has not responded yet
-    const { amount, moveOn, route, createAccRoute, id, checkAmountList } = this.state
+    const { amount, moveOn, route, createAccRoute, createCheckAccRoute, changeCheckRoute, id, checkAmountList, checkingId } = this.state
     // const { user } = this.props
 
+    // deposit/withdraw into savings account
     if (route) {
-      return <Redirect to='/savings-change/' />
+      return <Redirect to='/savings-change/transactions' />
+    // creating savings account
     } else if (createAccRoute) {
       return <Redirect to='/savings-create/' />
+    // creating checkings account
+    } else if (createCheckAccRoute) {
+      return <Redirect to='/checkings-create' />
+    // deposit/withdraw into checkings account
+    } else if (changeCheckRoute) {
+      return <Redirect to={'/checkings-change/' + save.checkingsId} />
     }
 
     if (moveOn === null) {
@@ -131,7 +210,7 @@ class Savings extends Component {
     } else {
       jsx = (
         <div>
-          <Row sm={6}>
+          <Row lg={12}>
             <div className='saving-transaction'>
               <Button variant="link" size='lg' onClick={() => {
                 this.move()
@@ -144,19 +223,33 @@ class Savings extends Component {
             </div>
             <div>
               {checkAmountList.map((item, index) => {
+                const checkId = checkingId[index].index
+
                 return (
-                  <Col sm={6} key={index}>
-                    <h3>
-                      Checkings: {index}
-                    </h3>
-                    <Button variant="link">
-                      {item.amount}
-                    </Button>
+                  <Col lg={12} key={index}>
+                    <div className='saving-transaction' key={index}>
+                      <Button variant="link" size='lg' onClick={(res) => {
+                        this.moveCheck(false, item.id)
+                        save.checkingsId = item.id
+                      }}>Checkings: {index + 1}</Button>
+                      <h4 onClick={(res) => {
+                        this.displayCheckings(index)
+                      }}>
+                        Account ID: {checkId}<i className="fa fa-eye"></i>
+                      </h4> <br />  <h4>Balance: ${nf.format(item.amount)}</h4>
+                    </div>
                   </Col>
                 )
               })}
             </div>
           </Row>
+          <div>
+            <center>
+              <Button variant="primary" onClick={(res) => {
+                this.moveCheck(true, 0)
+              }}>Create Checkings Account</Button>
+            </center>
+          </div>
         </div>
       )
     }

@@ -7,8 +7,8 @@ const authenticatedOptions = (
   <Fragment>
     <NavDropdown title="Account" id="basic-nav-dropdown">
       <NavDropdown.Item href="#change-password">Change Password</NavDropdown.Item>
-      <NavDropdown.Item href="#savings/transactions">Savings</NavDropdown.Item>
-      <NavDropdown.Item href="#savings-change">Savings Account</NavDropdown.Item>
+      <NavDropdown.Item href="#accounts/">Accounts</NavDropdown.Item>
+      <NavDropdown.Item href="#savings-change/transactions/">Savings Account</NavDropdown.Item>
     </NavDropdown>
     <Nav.Link href="#sign-out">Sign Out</Nav.Link>
   </Fragment>
@@ -23,7 +23,7 @@ const unauthenticatedOptions = (
 
 const alwaysOptions = (
   <Fragment>
-    <Nav.Link href="#/savings/transactions">Home</Nav.Link>
+    <Nav.Link href="#/accounts/">Home</Nav.Link>
   </Fragment>
 )
 

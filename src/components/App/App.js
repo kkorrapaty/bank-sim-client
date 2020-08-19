@@ -15,6 +15,8 @@ import SavingsCreate from '../Savings/SavingsCreate'
 
 // import Transactions Component
 import Transactions from '../Transactions/Transactions'
+// import Checkings Component
+import CheckingsChange from '../Checkings/CheckingsChange'
 
 // Home Page
 import Home from '../Home/Home'
@@ -67,7 +69,7 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password/' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/savings/' render={() => (
+          <AuthenticatedRoute user={user} path='/accounts/' render={() => (
             <Savings user={user} />
           )} />
           <AuthenticatedRoute user={user} path='/savings-change/' render={() => (
@@ -76,8 +78,11 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/savings-create/' render={() => (
             <SavingsCreate user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/savings/transactions/' render={() => (
+          <AuthenticatedRoute user={user} path='/savings-change/transactions/' render={() => (
             <Transactions user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/checkings-change/' render={() => (
+            <CheckingsChange user={user} />
           )} />
         </main>
       </Fragment>
